@@ -1,0 +1,5 @@
+{
+  "name": "Wanderers",
+  "description": "A travel application that lists curated travel agencies and features a 'Reels' section for users to share their travel experiences through short video clips.",
+  "requestFramePermissions": []
+}
