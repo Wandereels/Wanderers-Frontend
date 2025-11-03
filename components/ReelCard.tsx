@@ -1,5 +1,5 @@
-import React from 'react';
-import { HeartIcon, ChatBubbleIcon, ShareIcon } from './icons/AppIcons';
+
+import React, { useRef } from 'react';
 
 interface Reel {
   id: number;
@@ -10,42 +10,53 @@ interface Reel {
 
 interface ReelCardProps {
   reel: Reel;
+  onClick: (id: number) => void;
 }
 
-const ReelCard: React.FC<ReelCardProps> = ({ reel }) => {
+const ReelCard: React.FC<ReelCardProps> = ({ reel, onClick }) => {
+  const videoRef = useRef<HTMLVideoElement | null>(null);
+
+  const handleMouseEnter = () => {
+    videoRef.current?.play().catch(() => {});
+  };
+
+  const handleMouseLeave = () => {
+    if (videoRef.current) {
+      videoRef.current.pause();
+      videoRef.current.currentTime = 0;
+    }
+  };
+
   return (
-    <div className="relative w-full aspect-[9/16] rounded-2xl shadow-lg overflow-hidden snap-start">
-      {/* Video/Image Background */}
-      <img src={reel.videoUrl} alt={`Reel by ${reel.user}`} className="w-full h-full object-cover" />
+    <div
+      className="relative aspect-[9/16] rounded-lg shadow-lg overflow-hidden bg-gray-900 group cursor-pointer"
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+      onClick={() => onClick(reel.id)}
+      role="button"
+      tabIndex={0}
+      onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && onClick(reel.id)}
+      aria-label={`View reel by ${reel.user}`}
+    >
+      <video
+        ref={videoRef}
+        src={reel.videoUrl}
+        className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+        loop
+        muted
+        playsInline
+        preload="metadata"
+      />
 
-      {/* Gradient Overlay */}
-      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20"></div>
+      <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
 
-      {/* Content */}
-      <div className="absolute bottom-0 left-0 right-0 p-4 text-white flex justify-between items-end">
-        {/* User Info */}
-        <div className="flex items-center space-x-3">
-          <img src={reel.avatar} alt={reel.user} className="w-10 h-10 rounded-full border-2 border-white" />
-          <div>
-            <p className="font-semibold">{reel.user}</p>
-            <p className="text-xs">Follow</p>
-          </div>
-        </div>
-      </div>
-      
-      {/* Action Buttons */}
-      <div className="absolute right-2 bottom-4 flex flex-col space-y-4">
-        <button className="text-white">
-          <HeartIcon className="w-7 h-7" />
-          <span className="text-xs">1.2k</span>
-        </button>
-        <button className="text-white">
-          <ChatBubbleIcon className="w-7 h-7" />
-          <span className="text-xs">345</span>
-        </button>
-        <button className="text-white">
-          <ShareIcon className="w-7 h-7" />
-        </button>
+      <div className="absolute bottom-0 left-0 right-0 p-3 text-white flex items-center space-x-2">
+        <img
+          src={reel.avatar}
+          alt={reel.user}
+          className="w-8 h-8 rounded-full border-2 border-white"
+        />
+        <p className="font-semibold text-sm truncate">{reel.user}</p>
       </div>
     </div>
   );
