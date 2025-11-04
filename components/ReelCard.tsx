@@ -56,7 +56,7 @@ const ReelCard: React.FC<ReelCardProps> = ({ reel, onClick }) => {
           alt={reel.user}
           className="w-8 h-8 rounded-full border-2 border-white"
         />
-        <p className="font-semibold text-sm truncate">{reel.user}</p>
+        <p className="font-semibold text-l truncate">{reel.user}</p>
       </div>
     </div>
   );
