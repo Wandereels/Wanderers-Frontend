@@ -14,7 +14,7 @@ interface ReelViewerProps {
   initialReelId: number | null;
   onClose: () => void;
 }
-
+const apiBaseUrl = import.meta.env.VITE_BACKEND_URL;
 const ReelViewer: React.FC<ReelViewerProps> = ({ reels, initialReelId, onClose }) => {
   const [isMuted, setIsMuted] = useState(false);
   const scrollerRef = useRef<HTMLDivElement>(null);
@@ -147,7 +147,7 @@ const ReelViewer: React.FC<ReelViewerProps> = ({ reels, initialReelId, onClose }
               <div className="relative w-full h-full max-w-[400px] max-h-[85vh] aspect-[9/16] bg-gray-900 rounded-lg overflow-hidden">
                 <video
                   ref={el => { videoRefs.current.set(reelKey, el); }}
-                  src={reel.videoUrl}
+                  src={`${apiBaseUrl}${reel.videoUrl}`}
                   className="w-full h-full object-cover"
                   loop
                   muted={isMuted}

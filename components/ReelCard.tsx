@@ -12,7 +12,7 @@ interface ReelCardProps {
   reel: Reel;
   onClick: (id: number) => void;
 }
-
+const apiBaseUrl = import.meta.env.VITE_BACKEND_URL;
 const ReelCard: React.FC<ReelCardProps> = ({ reel, onClick }) => {
   const videoRef = useRef<HTMLVideoElement | null>(null);
 
@@ -40,7 +40,7 @@ const ReelCard: React.FC<ReelCardProps> = ({ reel, onClick }) => {
     >
       <video
         ref={videoRef}
-        src={reel.videoUrl}
+        src={`${apiBaseUrl}${reel.videoUrl}`}
         className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
         loop
         muted
