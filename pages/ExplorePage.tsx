@@ -21,8 +21,7 @@ const ExplorePage: React.FC = () => {
   });
 
   useEffect(() => {
-    // Use environment variable for flexibility (dev/prod)
-    const apiBaseUrl = 'https://wanderers-backend.vercel.app';
+const apiBaseUrl = import.meta.env.VITE_BACKEND_URL;
 
     fetch(`${apiBaseUrl}/api/reels`)
       .then((res) => {
